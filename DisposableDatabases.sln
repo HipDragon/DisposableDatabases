@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableDatabases", "src\DisposableDatabases\DisposableDatabases.csproj", "{4822237D-7648-4D7B-8321-E0229FCA48A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableDatabases.SqlServer", "src\DisposableDatabases.SqlServer\DisposableDatabases.SqlServer.csproj", "{C071D87E-3BE2-4385-BE00-7977FC303F26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableDatabases.PostgreSql", "src\DisposableDatabases.PostgreSql\DisposableDatabases.PostgreSql.csproj", "{54965830-1175-45C0-A2CF-B17870CC3864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableDatabases.PostgreSql.Tests", "tests\DisposableDatabases.PostgreSql.Tests\DisposableDatabases.PostgreSql.Tests.csproj", "{E9E08AC4-ECE5-49C1-9200-616B879220F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AF254AEC-DD8C-4027-9EAD-1635A2382518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableDatabases.Tests", "tests\DisposableDatabases.Tests\DisposableDatabases.Tests.csproj", "{27560C5D-9056-402A-9B7A-EFB389B2D9A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableDatabases.SqlServer.Tests", "tests\DisposableDatabases.SqlServer.Tests\DisposableDatabases.SqlServer.Tests.csproj", "{333BE22F-509C-41E5-902C-4F216AE338BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4822237D-7648-4D7B-8321-E0229FCA48A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4822237D-7648-4D7B-8321-E0229FCA48A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4822237D-7648-4D7B-8321-E0229FCA48A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4822237D-7648-4D7B-8321-E0229FCA48A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C071D87E-3BE2-4385-BE00-7977FC303F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C071D87E-3BE2-4385-BE00-7977FC303F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C071D87E-3BE2-4385-BE00-7977FC303F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C071D87E-3BE2-4385-BE00-7977FC303F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54965830-1175-45C0-A2CF-B17870CC3864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54965830-1175-45C0-A2CF-B17870CC3864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54965830-1175-45C0-A2CF-B17870CC3864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54965830-1175-45C0-A2CF-B17870CC3864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9E08AC4-ECE5-49C1-9200-616B879220F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9E08AC4-ECE5-49C1-9200-616B879220F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9E08AC4-ECE5-49C1-9200-616B879220F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9E08AC4-ECE5-49C1-9200-616B879220F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27560C5D-9056-402A-9B7A-EFB389B2D9A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27560C5D-9056-402A-9B7A-EFB389B2D9A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27560C5D-9056-402A-9B7A-EFB389B2D9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27560C5D-9056-402A-9B7A-EFB389B2D9A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{333BE22F-509C-41E5-902C-4F216AE338BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{333BE22F-509C-41E5-902C-4F216AE338BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{333BE22F-509C-41E5-902C-4F216AE338BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{333BE22F-509C-41E5-902C-4F216AE338BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E9E08AC4-ECE5-49C1-9200-616B879220F9} = {AF254AEC-DD8C-4027-9EAD-1635A2382518}
+		{27560C5D-9056-402A-9B7A-EFB389B2D9A7} = {AF254AEC-DD8C-4027-9EAD-1635A2382518}
+		{333BE22F-509C-41E5-902C-4F216AE338BF} = {AF254AEC-DD8C-4027-9EAD-1635A2382518}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Title>Disposable Databases</Title>
+		<Description>
+			An easy and flexible way to create disposable databases to use for integration testing.
+			Each test suite or test case can create a new, isolated database, execute the tests, and then
+			clean up afterward. This also allows parallel test execution, reducing the overall time
+			required for integration testing.
+		</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<NeutralLanguage>en-US</NeutralLanguage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Diagnostics" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+</Project>

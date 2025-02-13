@@ -1,0 +1,63 @@
+﻿<Project>
+	<PropertyGroup>
+		<Company>Disposable Databases</Company>
+		<Authors>Joshua Raymond</Authors>
+		<Product>Disposable Databases</Product>
+		<CommonTags>Database;Integration Testing;Testing;Test;BDD;TDD;</CommonTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Copyright>(c) Joshua Raymond and Contributors. All rights reserved.</Copyright>
+		<PackageProjectUrl>https://github.com/HipDragon/DisposableDatabases</PackageProjectUrl>
+		<PackageReleaseNotes>https://github.com/HipDragon/DisposableDatabases/releases</PackageReleaseNotes>
+		<!--<PackageIcon>Icon.png</PackageIcon>
+		<PackageIconUrl>https://raw.githubusercontent.com/HipDragon/DisposableDatabases/main/build/nuget.png</PackageIconUrl>-->
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>13</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFrameworks>net462;net8.0</TargetFrameworks>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>All</AnalysisMode>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == 'NET7_0_OR_GREATER'">
+		<IsAotCompatible>true</IsAotCompatible>
+		<!-- Add settings specific to .NET 7 or greater -->
+	</PropertyGroup>
+
+	<!-- 👇 disable the nullable warnings when compiling for .NET Framework -->
+	<!--<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<NoWarn>$(NoWarn);CS8630</NoWarn>
+	</PropertyGroup>
+-->
+	<ItemGroup>
+		<PackageReference Include="PolySharp">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>build; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Remove="System.IO" />
+		<Using Remove="System.Net.Http" />
+	</ItemGroup>
+
+	<Target Name="CleanOutputDirectories" AfterTargets="Clean">
+		<Message Text="Cleaning directories: $(OutputPath); and $(IntermediateOutputPath)" Importance="normal"/>
+		<RemoveDir Directories="$(OutputPath); $(IntermediateOutputPath)"/>
+	</Target>
+</Project>
