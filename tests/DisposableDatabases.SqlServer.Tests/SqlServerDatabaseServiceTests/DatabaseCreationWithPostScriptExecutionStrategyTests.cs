@@ -5,8 +5,8 @@
 using DisposableDatabases.Interfaces;
 using DisposableDatabases.Interfaces.Strategies;
 using DisposableDatabases.Strategies.DatabaseCreation;
-using DisposableDatabases.Strategies.DatabaseNaming;
-using DisposableDatabases.Strategies.DatabaseNaming.Decorators;
+using DisposableDatabases.Strategies.Naming;
+using DisposableDatabases.Strategies.Naming.Decorators;
 
 namespace DisposableDatabases.SqlServer.Tests.SqlServerDatabaseServiceTests;
 
@@ -18,19 +18,19 @@ public class DatabaseCreationWithPostScriptExecutionStrategyTests
 		// Arrange
 		string connectionString = ConfigurationHelper.GetRequiredValue("SqlServerConnectionString");
 		const string defaultPrefix = "DatabaseCreationWithPostScriptExecutionStrategyTest-";
-		IDatabaseNamingStrategy databaseNamingStrategy = new DatabaseNamingStrategyPrefixDecorator(new GuidDatabaseNamingStrategy(), defaultPrefix);
+		INamingStrategy namingStrategy = new PrefixNamingStrategy(new GuidNamingStrategy(), defaultPrefix);
 
 		using (var temporarySqlFile = new TemporaryFile(".sql"))
 		{
 			await SqlServerSqlScriptExecutorExecuteSqlScriptAsync.WriteTestSqlScriptToFileAsync(temporarySqlFile.FilePath);
-			var disposableDatabaseCreationStrategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString, new SqlServerDatabaseService(), databaseNamingStrategy, temporarySqlFile.FilePath);
+			var disposableDatabaseCreationStrategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString, new SqlServerDatabaseService(), namingStrategy, temporarySqlFile.FilePath);
 
 			// Act
 			IDisposableDatabase disposableDatabase = await disposableDatabaseCreationStrategy.CreateDatabaseAsync();
 
 			// Assert
 			Assert.That(disposableDatabase, Is.Not.Null);
-			await Assert.MultipleAsync(async () =>
+			using (Assert.EnterMultipleScope())
 			{
 				Assert.That(disposableDatabase.DatabaseName, Is.Not.Empty);
 				string databaseName = disposableDatabase.DatabaseName;
@@ -38,7 +38,7 @@ public class DatabaseCreationWithPostScriptExecutionStrategyTests
 				await Assert.ThatAsync(() => SqlServerDatabaseUtilities.TableExistsAsync(disposableDatabase.ConnectionString, "SampleTestTable"), Is.True);
 				await disposableDatabase.DisposeAsync();
 				await Assert.ThatAsync(() => SqlServerDatabaseUtilities.DatabaseExistsAsync(connectionString, databaseName), Is.False);
-			});
+			}
 		}
 	}
 }

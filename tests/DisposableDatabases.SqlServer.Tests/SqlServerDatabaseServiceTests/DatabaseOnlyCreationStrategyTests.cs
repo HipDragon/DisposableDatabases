@@ -5,8 +5,8 @@
 using DisposableDatabases.Interfaces;
 using DisposableDatabases.Interfaces.Strategies;
 using DisposableDatabases.Strategies.DatabaseCreation;
-using DisposableDatabases.Strategies.DatabaseNaming;
-using DisposableDatabases.Strategies.DatabaseNaming.Decorators;
+using DisposableDatabases.Strategies.Naming;
+using DisposableDatabases.Strategies.Naming.Decorators;
 
 namespace DisposableDatabases.SqlServer.Tests.SqlServerDatabaseServiceTests;
 
@@ -19,15 +19,15 @@ public class DatabaseOnlyCreationStrategyTests
 		// Arrange
 		string connectionString = ConfigurationHelper.GetRequiredValue("SqlServerConnectionString");
 		const string defaultPrefix = "DatabaseOnlyCreationStrategyTest-";
-		IDatabaseNamingStrategy databaseNamingStrategy = new DatabaseNamingStrategyPrefixDecorator(new GuidDatabaseNamingStrategy(), defaultPrefix);
-		var disposableDatabaseCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, new SqlServerDatabaseService(), databaseNamingStrategy);
+		INamingStrategy namingStrategy = new PrefixNamingStrategy(new GuidNamingStrategy(), defaultPrefix);
+		var disposableDatabaseCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, new SqlServerDatabaseService(), namingStrategy);
 
 		// Act
 		IDisposableDatabase disposableDatabase = await disposableDatabaseCreationStrategy.CreateDatabaseAsync();
 
 		// Assert
 		Assert.That(disposableDatabase, Is.Not.Null);
-		await Assert.MultipleAsync(async () =>
+		using (Assert.EnterMultipleScope())
 		{
 			Assert.That(disposableDatabase.DatabaseName, Is.Not.Empty);
 			string databaseName = disposableDatabase.DatabaseName;
@@ -35,6 +35,6 @@ public class DatabaseOnlyCreationStrategyTests
 			await Assert.ThatAsync(() => SqlServerDatabaseUtilities.TestDatabaseConnectionAsync(disposableDatabase.ConnectionString), Is.True);
 			await disposableDatabase.DisposeAsync();
 			await Assert.ThatAsync(() => SqlServerDatabaseUtilities.DatabaseExistsAsync(connectionString, databaseName), Is.False);
-		});
+		}
 	}
 }

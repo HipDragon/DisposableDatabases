@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Extensions;
 using Microsoft.Extensions.Logging;
@@ -40,7 +39,7 @@ public class TemporaryFile : IDisposable
 	private readonly ILogger<TemporaryFile> _logger;
 
 	/// <summary>
-	/// Indicates whether the current instance has already been disposed.
+	/// Indicates whether the current instance has already been disposed of.
 	/// </summary>
 	private bool _disposed;
 
@@ -50,7 +49,7 @@ public class TemporaryFile : IDisposable
 	/// <remarks>
 	/// This class supports the creation of temporary files, optionally with specific extensions.
 	/// By implementing <see cref="IDisposable"/>, it ensures the file is deleted automatically upon disposal.
-	/// It also includes mechanisms to prevent usage after being disposed.
+	/// It also includes mechanisms to prevent usage after being disposed of.
 	/// </remarks>
 	/// <exception cref="ArgumentNullException">Thrown when required arguments such as the logger or extension are null.</exception>
 	/// <exception cref="ObjectDisposedException">Thrown if methods or properties of a disposed <see cref="TemporaryFile"/> instance are accessed.</exception>
@@ -68,7 +67,7 @@ public class TemporaryFile : IDisposable
 	/// </remarks>
 	/// <exception cref="ArgumentNullException">Thrown if required arguments such as the file extension or logger are null.</exception>
 	/// <exception cref="ObjectDisposedException">Thrown when attempting to access properties or methods of a disposed <see cref="TemporaryFile"/> instance.</exception>
-	public TemporaryFile([NotNull] string? extension) : this(extension, new NullLogger<TemporaryFile>())
+	public TemporaryFile(string? extension) : this(extension, new NullLogger<TemporaryFile>())
 	{
 	}
 
@@ -88,7 +87,7 @@ public class TemporaryFile : IDisposable
 	/// <exception cref="ObjectDisposedException">
 	/// Thrown when attempting to access methods or properties of a disposed <see cref="TemporaryFile"/> instance.
 	/// </exception>
-	public TemporaryFile([NotNull] ILogger<TemporaryFile>? logger)
+	public TemporaryFile(ILogger<TemporaryFile>? logger)
 	{
 		Guard.IsNotNull(logger);
 
@@ -99,7 +98,7 @@ public class TemporaryFile : IDisposable
 	}
 
 	/// <summary>
-	/// Provides functionality to create and manage a temporary file that is automatically cleaned up when disposed.
+	/// Provides functionality to create and manage a temporary file that is automatically cleaned up when disposed of.
 	/// </summary>
 	/// <remarks>
 	/// The <see cref="TemporaryFile"/> class allows for the creation of temporary files with optional file extensions.
@@ -112,7 +111,7 @@ public class TemporaryFile : IDisposable
 	/// <exception cref="InvalidOperationException">
 	/// Thrown when an attempt is made to reuse or access resources of a disposed <see cref="TemporaryFile"/> instance.
 	/// </exception>
-	public TemporaryFile([NotNull] string? extension, [NotNull] ILogger<TemporaryFile>? logger)
+	public TemporaryFile(string? extension, ILogger<TemporaryFile>? logger)
 	{
 		Guard.IsNotNullOrWhiteSpace(extension);
 		Guard.IsNotNull(logger);
@@ -169,7 +168,7 @@ public class TemporaryFile : IDisposable
 	/// When called with <paramref name="disposing"/> set to <c>true</c>, the method ensures proper cleanup of any associated resources,
 	/// including the deletion of the temporary file created by the <see cref="TemporaryFile"/> instance.
 	/// </remarks>
-	/// <exception cref="ObjectDisposedException">Thrown if the method is accessed after the object has already been disposed.</exception>
+	/// <exception cref="ObjectDisposedException">Thrown if the method is accessed after the object has already been disposed of.</exception>
 	protected virtual void Dispose(bool disposing)
 	{
 		if (_disposed)
@@ -186,7 +185,7 @@ public class TemporaryFile : IDisposable
 	}
 
 	/// <summary>
-	/// Ensures that the current instance of the object has not been disposed.
+	/// Ensures that the current instance of the object has not been disposed of.
 	/// </summary>
 	/// <remarks>
 	/// Throws an <see cref="ObjectDisposedException" /> if the instance has already been disposed, preventing access to methods or properties of the disposed object.

@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Exceptions;
 using DisposableDatabases.Extensions;
@@ -29,12 +28,12 @@ public class DisposableDatabase : IDisposableDatabase
 	private readonly ILogger<DisposableDatabase> _logger;
 
 	/// <summary>
-	/// Indicates whether the current instance has already been disposed.
+	/// Indicates whether the current instance has already been disposed of.
 	/// </summary>
 	private bool _disposed;
 
 	/// <summary>
-	/// Indicates whether the database should be preserved after the instance is disposed.
+	/// Indicates whether the database should be preserved after the instance is disposed of.
 	/// </summary>
 	private bool _preserveDatabase;
 
@@ -46,10 +45,10 @@ public class DisposableDatabase : IDisposableDatabase
 	/// Represents a disposable database instance that can be used for temporary purposes and then discarded.
 	/// </summary>
 	/// <remarks>
-	/// This class ensures that the database instance is created with valid connection string and database name,
+	/// This class ensures that the database instance is created with a valid connection string and database name,
 	/// and it relies on the provided IDatabaseDropper instance for database disposal operations.
 	/// </remarks>
-	protected internal DisposableDatabase([NotNull] string? connectionString, [NotNull] string? databaseName, [NotNull] IDisposableDatabaseCreationStrategy? disposableDatabaseCreationStrategy)
+	protected internal DisposableDatabase(string? connectionString, string? databaseName, IDisposableDatabaseCreationStrategy? disposableDatabaseCreationStrategy)
 		: this(connectionString, databaseName, disposableDatabaseCreationStrategy, NullLogger<DisposableDatabase>.Instance)
 	{
 	}
@@ -61,10 +60,10 @@ public class DisposableDatabase : IDisposableDatabase
 	/// This class requires valid connection strings and a database name for instantiation. It depends on an IDatabaseDropper implementation
 	/// for handling the process of database cleanup and disposal. This ensures resources are released correctly once the instance is no longer needed.
 	/// </remarks>
-	protected internal DisposableDatabase([NotNull] string? connectionString,
-	                                      [NotNull] string? databaseName,
-	                                      [NotNull] IDisposableDatabaseCreationStrategy? disposableDatabaseCreationStrategy,
-	                                      [NotNull] ILogger<DisposableDatabase>? logger)
+	protected internal DisposableDatabase(string? connectionString,
+	                                      string? databaseName,
+	                                      IDisposableDatabaseCreationStrategy? disposableDatabaseCreationStrategy,
+	                                      ILogger<DisposableDatabase>? logger)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNullOrWhiteSpace(databaseName);
@@ -190,7 +189,7 @@ public class DisposableDatabase : IDisposableDatabase
 	}
 
 	/// <summary>
-	/// Ensures that the current instance of the object has not been disposed.
+	/// Ensures that the current instance of the object has not been disposed of.
 	/// </summary>
 	/// <remarks>
 	/// Throws an <see cref="ObjectDisposedException" /> if the instance has already been disposed, preventing access to methods or properties of the disposed object.

@@ -1,13 +1,13 @@
-﻿// <copyright file="GetDatabaseName.cs" company="DisposableDatabases">
+﻿// <copyright file="GenerateName.cs" company="DisposableDatabases">
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using DisposableDatabases.Strategies.DatabaseNaming;
+using DisposableDatabases.Strategies.Naming;
 
-namespace DisposableDatabases.Tests.Strategies.DatabaseNaming.GuidDatabaseNamingStrategyTests;
+namespace DisposableDatabases.Tests.Strategies.Naming.GuidNamingStrategyTests;
 
 [TestFixture]
-public class GetDatabaseName
+public class GenerateName
 {
 	private const string NFormatPattern = "^[0-9a-fA-F]{32}$";
 	private const string DFormatPattern = "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$";
@@ -19,11 +19,11 @@ public class GetDatabaseName
 	public void GenerateUniqueNames()
 	{
 		// Arrange
-		var namingStrategy = new GuidDatabaseNamingStrategy();
+		var namingStrategy = new GuidNamingStrategy();
 
 		// Act
-		string firstResult = namingStrategy.GenerateDatabaseName();
-		string secondResult = namingStrategy.GenerateDatabaseName();
+		string firstResult = namingStrategy.GenerateName();
+		string secondResult = namingStrategy.GenerateName();
 
 		// Assert
 		Assert.That(firstResult, Is.Not.EqualTo(secondResult));
@@ -37,10 +37,10 @@ public class GetDatabaseName
 	public void GenerateFormattedGuid(string format, string expectedPattern)
 	{
 		// Arrange
-		var namingStrategy = new GuidDatabaseNamingStrategy(format);
+		var namingStrategy = new GuidNamingStrategy(format);
 
 		// Act
-		string result = namingStrategy.GenerateDatabaseName();
+		string result = namingStrategy.GenerateName();
 
 		// Assert
 		Assert.That(result, Does.Match(expectedPattern));

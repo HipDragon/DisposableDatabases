@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Exceptions;
 using DisposableDatabases.Interfaces.DatabaseOperations;
@@ -18,13 +17,13 @@ namespace DisposableDatabases.PostgreSql;
 public class PostgreSqlDatabaseCreator : IDatabaseCreator
 {
 	/// <inheritdoc />
-	public Task<string> CreateDatabaseAsync([NotNull] string? connectionString, [NotNull] string? databaseName)
+	public Task<string> CreateDatabaseAsync(string? connectionString, string? databaseName)
 	{
 		return CreateDatabaseAsync(connectionString, databaseName, CancellationToken.None);
 	}
 
 	/// <inheritdoc />
-	public Task<string> CreateDatabaseAsync([NotNull] string? connectionString, [NotNull] string? databaseName, CancellationToken cancellationToken)
+	public Task<string> CreateDatabaseAsync(string? connectionString, string? databaseName, CancellationToken cancellationToken)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNullOrWhiteSpace(databaseName);

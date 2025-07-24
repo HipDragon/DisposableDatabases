@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Exceptions;
 using DisposableDatabases.Interfaces.DatabaseOperations;
@@ -23,7 +22,7 @@ public class SqlServerSqlScriptExecutor : ISqlScriptExecutor
 	/// <param name="sqlScriptFilePath">The file path of the SQL script to be executed.</param>
 	/// <exception cref="DisposableDatabasesException">Thrown when there is an error executing the SQL script.</exception>
 	/// <exception cref="FileNotFoundException">Thrown when the SQL script file is not found at the specified path.</exception>
-	public Task ExecuteSqlScriptAsync([NotNull] string? connectionString, [NotNull] string? databaseName, [NotNull] string? sqlScriptFilePath)
+	public Task ExecuteSqlScriptAsync(string? connectionString, string? databaseName, string? sqlScriptFilePath)
 	{
 		return ExecuteSqlScriptAsync(connectionString, databaseName, sqlScriptFilePath, CancellationToken.None);
 	}
@@ -39,7 +38,7 @@ public class SqlServerSqlScriptExecutor : ISqlScriptExecutor
 	/// <returns>A task that represents the asynchronous operation.</returns>
 	/// <exception cref="DisposableDatabasesException">Thrown when there is an error executing the SQL script.</exception>
 	/// <exception cref="FileNotFoundException">Thrown when the SQL script file is not found at the specified path.</exception>
-	public Task ExecuteSqlScriptAsync([NotNull] string? connectionString, [NotNull] string? databaseName, [NotNull] string? sqlScriptFilePath, CancellationToken cancellationToken)
+	public Task ExecuteSqlScriptAsync(string? connectionString, string? databaseName, string? sqlScriptFilePath, CancellationToken cancellationToken)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNullOrWhiteSpace(databaseName);

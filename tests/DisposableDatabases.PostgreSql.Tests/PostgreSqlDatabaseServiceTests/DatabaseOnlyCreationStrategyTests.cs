@@ -5,8 +5,8 @@
 using DisposableDatabases.Interfaces;
 using DisposableDatabases.Interfaces.Strategies;
 using DisposableDatabases.Strategies.DatabaseCreation;
-using DisposableDatabases.Strategies.DatabaseNaming;
-using DisposableDatabases.Strategies.DatabaseNaming.Decorators;
+using DisposableDatabases.Strategies.Naming.Decorators;
+using DisposableDatabases.Strategies.Naming;
 
 namespace DisposableDatabases.PostgreSql.Tests.PostgreSqlDatabaseServiceTests;
 
@@ -19,15 +19,15 @@ public class DatabaseOnlyCreationStrategyTests
 		// Arrange
 		string connectionString = ConfigurationHelper.GetRequiredValue("PostgreSqlConnectionString");
 		const string defaultPrefix = "test_";
-		IDatabaseNamingStrategy databaseNamingStrategy = new DatabaseNamingStrategyPrefixDecorator(new GuidDatabaseNamingStrategy(), defaultPrefix);
-		var disposableDatabaseCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, new PostgreSqlDatabaseService(), databaseNamingStrategy);
+		INamingStrategy namingStrategy = new PrefixNamingStrategy(new GuidNamingStrategy(), defaultPrefix);
+		var disposableDatabaseCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, new PostgreSqlDatabaseService(), namingStrategy);
 
 		// Act
 		IDisposableDatabase disposableDatabase = await disposableDatabaseCreationStrategy.CreateDatabaseAsync();
 
 		// Assert
 		Assert.That(disposableDatabase, Is.Not.Null);
-		await Assert.MultipleAsync(async () =>
+		using (Assert.EnterMultipleScope())
 		{
 			Assert.That(disposableDatabase.DatabaseName, Is.Not.Empty);
 			string databaseName = disposableDatabase.DatabaseName;
@@ -35,6 +35,6 @@ public class DatabaseOnlyCreationStrategyTests
 			await Assert.ThatAsync(() => PostgreSqlDatabaseUtilities.TestDatabaseConnectionAsync(disposableDatabase.ConnectionString), Is.True);
 			await disposableDatabase.DisposeAsync();
 			await Assert.ThatAsync(() => PostgreSqlDatabaseUtilities.DatabaseExistsAsync(connectionString, databaseName), Is.False);
-		});
+		}
 	}
 }

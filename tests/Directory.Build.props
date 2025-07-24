@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="NUnit.Framework"/>
+		<Using Include="NUnit.Framework" />
 	</ItemGroup>
 
 	<ItemGroup>

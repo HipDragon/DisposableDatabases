@@ -24,7 +24,7 @@ public class PostgreSqlSqlScriptExecutor : ISqlScriptExecutor
 	/// <returns>A task representing the asynchronous operation.</returns>
 	/// <exception cref="DisposableDatabasesException">Thrown when there is an error executing the SQL script.</exception>
 	/// <exception cref="FileNotFoundException">Thrown when the SQL script file is not found at the specified path.</exception>
-	public Task ExecuteSqlScriptAsync([NotNull] string? connectionString, [NotNull] string? databaseName, [NotNull] string? sqlScriptFilePath)
+	public Task ExecuteSqlScriptAsync(string? connectionString, string? databaseName, string? sqlScriptFilePath)
 	{
 		return ExecuteSqlScriptAsync(connectionString, databaseName, sqlScriptFilePath, CancellationToken.None);
 	}
@@ -39,7 +39,7 @@ public class PostgreSqlSqlScriptExecutor : ISqlScriptExecutor
 	/// <returns>A task representing the asynchronous operation.</returns>
 	/// <exception cref="DisposableDatabasesException">Thrown when there is an error executing the SQL script.</exception>
 	/// <exception cref="FileNotFoundException">Thrown when the SQL script file is not found at the specified path.</exception>
-	public Task ExecuteSqlScriptAsync([NotNull] string? connectionString, [NotNull] string? databaseName, [NotNull] string? sqlScriptFilePath, CancellationToken cancellationToken)
+	public Task ExecuteSqlScriptAsync(string? connectionString, string? databaseName, string? sqlScriptFilePath, CancellationToken cancellationToken)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNullOrWhiteSpace(databaseName);

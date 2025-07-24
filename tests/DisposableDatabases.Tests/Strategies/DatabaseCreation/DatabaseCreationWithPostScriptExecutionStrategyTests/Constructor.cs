@@ -19,10 +19,10 @@ public class Constructor
 	{
 		// Arrange
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(null, substituteDatabaseCreatorDropperAndSqlScriptExecutor, substituteDatabaseNamingStrategy, "ValidSqlScriptFilePath");
+		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(null, substituteDatabaseCreatorDropperAndSqlScriptExecutor, substituteNamingStrategy, "ValidSqlScriptFilePath");
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -34,12 +34,12 @@ public class Constructor
 	{
 		// Arrange
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
 		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(invalidConnectionString,
 		                                                                              substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-		                                                                              substituteDatabaseNamingStrategy,
+		                                                                              substituteNamingStrategy,
 		                                                                              "ValidSqlScriptFilePath");
 
 		// Assert
@@ -51,10 +51,10 @@ public class Constructor
 	{
 		// Arrange
 		const string connectionString = "ValidConnectionString";
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString, null, substituteDatabaseNamingStrategy, "ValidSqlScriptFilePath");
+		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString, null, substituteNamingStrategy, "ValidSqlScriptFilePath");
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -66,10 +66,10 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString, substituteDatabaseCreatorDropperAndSqlScriptExecutor, substituteDatabaseNamingStrategy, null);
+		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString, substituteDatabaseCreatorDropperAndSqlScriptExecutor, substituteNamingStrategy, null);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -82,12 +82,12 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
 		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 																					  substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-																					  substituteDatabaseNamingStrategy,
+																					  substituteNamingStrategy,
 																					  invalidSqlScriptFilePath);
 
 		// Assert
@@ -100,7 +100,7 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 		var temporarySqlFile = new TemporaryFile(".sql");
 		string invalidFilePath = temporarySqlFile.FilePath;
 		temporarySqlFile.Dispose();
@@ -108,7 +108,7 @@ public class Constructor
 		// Act
 		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 		                                                                              substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-		                                                                              substituteDatabaseNamingStrategy,
+		                                                                              substituteNamingStrategy,
 		                                                                              invalidFilePath);
 
 		// Assert
@@ -121,12 +121,12 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
 		Action action = () => _ = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 		                                                                              substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-		                                                                              substituteDatabaseNamingStrategy,
+		                                                                              substituteNamingStrategy,
 		                                                                              "ValidSqlScriptFilePath",
 		                                                                              null);
 
@@ -140,7 +140,7 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 		DatabaseCreationWithPostScriptExecutionStrategy databaseCreationWithPostScriptExecutionStrategy;
 		NullLoggerFactory expectedLogger = NullLoggerFactory.Instance;
 
@@ -149,7 +149,7 @@ public class Constructor
 			// Act
 			databaseCreationWithPostScriptExecutionStrategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 			                                                                                                      substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-			                                                                                                      substituteDatabaseNamingStrategy,
+			                                                                                                      substituteNamingStrategy,
 			                                                                                                      temporarySqlFile.FilePath);
 		}
 

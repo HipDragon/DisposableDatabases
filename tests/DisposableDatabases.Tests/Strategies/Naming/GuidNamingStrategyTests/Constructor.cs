@@ -2,9 +2,9 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using DisposableDatabases.Strategies.DatabaseNaming;
+using DisposableDatabases.Strategies.Naming;
 
-namespace DisposableDatabases.Tests.Strategies.DatabaseNaming.GuidDatabaseNamingStrategyTests;
+namespace DisposableDatabases.Tests.Strategies.Naming.GuidNamingStrategyTests;
 
 [TestFixture]
 public class Constructor
@@ -16,10 +16,10 @@ public class Constructor
 	public void ProvidesDefaultGuidFormatGivenNoGuidFormat()
 	{
 		// Arrange
-		var namingStrategy = new GuidDatabaseNamingStrategy();
+		var namingStrategy = new GuidNamingStrategy();
 
 		// Act
-		string result = namingStrategy.GenerateDatabaseName();
+		string result = namingStrategy.GenerateName();
 
 		// Assert
 		Assert.That(result, Does.Match(DefaultGuidFormatPattern));
@@ -33,7 +33,7 @@ public class Constructor
 	public void ThrowsNothingGivenValidGuidFormat(string validGuidFormat)
 	{
 		// Arrange & Act
-		Action action = () => _ = new GuidDatabaseNamingStrategy(validGuidFormat);
+		Action action = () => _ = new GuidNamingStrategy(validGuidFormat);
 
 		// Assert
 		Assert.That(action, Throws.Nothing);
@@ -43,18 +43,18 @@ public class Constructor
 	public void ThrowsArgumentNullExceptionGivenNullGuidFormat()
 	{
 		// Act
-		Action action = () => _ = new GuidDatabaseNamingStrategy(null);
+		Action action = () => _ = new GuidNamingStrategy(null);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
 	}
 
-	[TestCase("", TestName = "ThrowsArgumentExceptionGivenEmptySqlScriptFilePath")]
-	[TestCase(" \t\n\r\f\v", TestName = "ThrowsArgumentExceptionGivenWhitespaceSqlScriptFilePath")]
+	[TestCase("", TestName = "ThrowsArgumentExceptionGivenEmptyGuidFormat")]
+	[TestCase(" \t\n\r\f\v", TestName = "ThrowsArgumentExceptionGivenWhitespaceGuidFormat")]
 	public void ThrowsArgumentExceptionGivenEmptyOrWhitespaceGuidFormat(string invalidGuidFormat)
 	{
 		// Act
-		Action action = () => _ = new GuidDatabaseNamingStrategy(invalidGuidFormat);
+		Action action = () => _ = new GuidNamingStrategy(invalidGuidFormat);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentException>());
@@ -64,7 +64,7 @@ public class Constructor
 	public void ThrowsArgumentExceptionGivenInvalidGuidFormat(string invalidGuidFormat)
 	{
 		// Act
-		Action action = () => _ = new GuidDatabaseNamingStrategy(invalidGuidFormat);
+		Action action = () => _ = new GuidNamingStrategy(invalidGuidFormat);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentException>().With.Message.StartsWith("Invalid GUID format specified."));

@@ -19,14 +19,14 @@ public class DisposeDatabaseAsync
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 		DatabaseCreationWithPostScriptExecutionStrategy databaseCreationWithPostScriptExecutionStrategy;
 
 		using (var temporarySqlFile = new TemporaryFile(".sql"))
 		{
 			databaseCreationWithPostScriptExecutionStrategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 			                                                                                                      substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-			                                                                                                      substituteDatabaseNamingStrategy,
+			                                                                                                      substituteNamingStrategy,
 			                                                                                                      temporarySqlFile.FilePath);
 		}
 
@@ -43,7 +43,7 @@ public class DisposeDatabaseAsync
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 		IDisposableDatabase substituteDisposableDatabase = Substitute.For<IDisposableDatabase>();
 		substituteDisposableDatabase.DatabaseName.Returns("ValidDatabaseName");
 		DatabaseCreationWithPostScriptExecutionStrategy databaseCreationWithPostScriptExecutionStrategy;
@@ -52,7 +52,7 @@ public class DisposeDatabaseAsync
 		{
 			databaseCreationWithPostScriptExecutionStrategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 			                                                                                                      substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-			                                                                                                      substituteDatabaseNamingStrategy,
+			                                                                                                      substituteNamingStrategy,
 			                                                                                                      temporarySqlFile.FilePath);
 		}
 

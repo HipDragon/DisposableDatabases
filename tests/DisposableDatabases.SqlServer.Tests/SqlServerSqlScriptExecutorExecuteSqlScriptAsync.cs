@@ -153,7 +153,7 @@ public class SqlServerSqlScriptExecutorExecuteSqlScriptAsync
 		string sqlServerConnectionString = ConfigurationHelper.GetRequiredValue("SqlServerConnectionString");
 		string databaseName = "TestExecuteSqlScriptAsync-" + Guid.NewGuid();
 		await SqlServerDatabaseUtilities.CreateDatabaseAsync(sqlServerConnectionString, databaseName);
-		Assume.That(await SqlServerDatabaseUtilities.DatabaseExistsAsync(sqlServerConnectionString, databaseName), Is.True, "Test database should not exist before the test runs.");
+		Assume.That(await SqlServerDatabaseUtilities.DatabaseExistsAsync(sqlServerConnectionString, databaseName), Is.True, "Test database should exist before the test runs.");
 
 		using (var temporarySqlFile = new TemporaryFile(".sql"))
 		{
@@ -191,16 +191,16 @@ public class SqlServerSqlScriptExecutorExecuteSqlScriptAsync
 			Task writeSqlScriptTask = WriteTestSqlScriptToFileAsync(temporarySqlFile.FilePath);
 			Task createSqlDatabase = SqlServerDatabaseUtilities.CreateDatabaseAsync(sqlServerConnectionString, expectedDatabaseName);
 			await Task.WhenAll(writeSqlScriptTask, createSqlDatabase);
-			Assume.That(await SqlServerDatabaseUtilities.DatabaseExistsAsync(sqlServerConnectionString, expectedDatabaseName), Is.False, "Test database should not exist before the test runs.");
+			Assume.That(await SqlServerDatabaseUtilities.DatabaseExistsAsync(sqlServerConnectionString, expectedDatabaseName), Is.True, "Test database should exist before the test runs.");
 
 			string newConnectionString = new SqlConnectionStringBuilder(sqlServerConnectionString) { InitialCatalog = expectedDatabaseName }.ConnectionString;
 
-			// Act
-			await _sqlServerSqlScriptExecutor.ExecuteSqlScriptAsync(newConnectionString, expectedDatabaseName, temporarySqlFile.FilePath);
-
-			// Assert
 			try
 			{
+				// Act
+				await _sqlServerSqlScriptExecutor.ExecuteSqlScriptAsync(newConnectionString, expectedDatabaseName, temporarySqlFile.FilePath);
+
+				// Assert
 				await Assert.ThatAsync(() => SqlServerDatabaseUtilities.TableExistsAsync(newConnectionString, "SampleTestTable"), Is.True);
 			}
 			finally

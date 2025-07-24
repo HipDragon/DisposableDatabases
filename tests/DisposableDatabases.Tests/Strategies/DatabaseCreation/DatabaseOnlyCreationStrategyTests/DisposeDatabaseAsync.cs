@@ -19,8 +19,8 @@ public class DisposeDatabaseAsync
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
-		var databaseOnlyCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy);
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
+		var databaseOnlyCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteNamingStrategy);
 
 		// Act
 		AsyncTestDelegate action = () => databaseOnlyCreationStrategy.DisposeDatabaseAsync(null!);
@@ -35,10 +35,10 @@ public class DisposeDatabaseAsync
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 		IDisposableDatabase substituteDisposableDatabase = Substitute.For<IDisposableDatabase>();
 		substituteDisposableDatabase.DatabaseName.Returns("ValidDatabaseName");
-		var databaseOnlyCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy);
+		var databaseOnlyCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteNamingStrategy);
 
 		// Act
 		await databaseOnlyCreationStrategy.DisposeDatabaseAsync(substituteDisposableDatabase);

@@ -3,10 +3,10 @@
 // </copyright>
 
 using DisposableDatabases.Interfaces.Strategies;
-using DisposableDatabases.Strategies.DatabaseNaming.Decorators;
+using DisposableDatabases.Strategies.Naming.Decorators;
 using NSubstitute;
 
-namespace DisposableDatabases.Tests.Strategies.DatabaseNaming.Decorators.DatabaseNamingStrategySuffixDecoratorTests;
+namespace DisposableDatabases.Tests.Strategies.Naming.Decorators.SuffixNamingStrategyTests;
 
 [TestFixture]
 public class Constructor
@@ -18,7 +18,7 @@ public class Constructor
 		const string suffix = "-suffix";
 
 		// Act
-		Action action = () => _ = new DatabaseNamingStrategySuffixDecorator(null, suffix);
+		Action action = () => _ = new SuffixNamingStrategy(null!, suffix);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -28,10 +28,10 @@ public class Constructor
 	public void ThrowsArgumentNullExceptionGivenNullSuffix()
 	{
 		// Arrange
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseNamingStrategySuffixDecorator(substituteDatabaseNamingStrategy, null);
+		Action action = () => _ = new SuffixNamingStrategy(substituteNamingStrategy, null!);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -42,10 +42,10 @@ public class Constructor
 	public void ThrowsArgumentExceptionGivenEmptyOrWhitespaceSuffix(string invalidSuffix)
 	{
 		// Arrange
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseNamingStrategySuffixDecorator(substituteDatabaseNamingStrategy, invalidSuffix);
+		Action action = () => _ = new SuffixNamingStrategy(substituteNamingStrategy, invalidSuffix);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentException>());

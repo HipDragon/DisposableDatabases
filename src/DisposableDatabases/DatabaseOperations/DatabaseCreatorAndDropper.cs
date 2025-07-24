@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Interfaces.DatabaseOperations;
 
@@ -19,7 +18,7 @@ public abstract class DatabaseCreatorAndDropper : IDatabaseCreatorAndDropper
 	/// <param name="databaseCreator">The <see cref="IDatabaseCreator" /> instance responsible for creating databases.</param>
 	/// <param name="databaseDropper">The <see cref="IDatabaseDropper" /> instance responsible for dropping databases.</param>
 	/// <exception cref="ArgumentNullException">Thrown if either <paramref name="databaseCreator" /> or <paramref name="databaseDropper" /> is <c>null</c>.</exception>
-	protected DatabaseCreatorAndDropper([NotNull] IDatabaseCreator? databaseCreator, [NotNull] IDatabaseDropper? databaseDropper)
+	protected DatabaseCreatorAndDropper(IDatabaseCreator? databaseCreator, IDatabaseDropper? databaseDropper)
 	{
 		Guard.IsNotNull(databaseCreator);
 		Guard.IsNotNull(databaseDropper);

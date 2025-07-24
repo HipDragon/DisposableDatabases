@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Exceptions;
 using DisposableDatabases.Interfaces.DatabaseOperations;
@@ -21,7 +20,7 @@ public class PostgreSqlDatabaseDropper : IDatabaseDropper
 	/// <param name="connectionString">The connection string used to establish a connection to the PostgreSQL server.</param>
 	/// <param name="databaseName">The name of the database to be dropped.</param>
 	/// <returns>A task representing the asynchronous operation of dropping the database.</returns>
-	public Task DropDatabaseAsync([NotNull] string? connectionString, [NotNull] string? databaseName)
+	public Task DropDatabaseAsync(string? connectionString, string? databaseName)
 	{
 		return DropDatabaseAsync(connectionString, databaseName, CancellationToken.None);
 	}
@@ -34,7 +33,7 @@ public class PostgreSqlDatabaseDropper : IDatabaseDropper
 	/// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
 	/// <returns>A task that represents the asynchronous operation.</returns>
 	/// <exception cref="ArgumentException">Thrown when the connection string or database name is null, empty, or consists only of white-space characters.</exception>
-	public Task DropDatabaseAsync([NotNull] string? connectionString, [NotNull] string? databaseName, CancellationToken cancellationToken)
+	public Task DropDatabaseAsync(string? connectionString, string? databaseName, CancellationToken cancellationToken)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNullOrWhiteSpace(databaseName);

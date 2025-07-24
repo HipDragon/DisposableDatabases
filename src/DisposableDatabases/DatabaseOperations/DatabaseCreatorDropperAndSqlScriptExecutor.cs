@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Interfaces.DatabaseOperations;
 
@@ -22,7 +21,7 @@ public abstract class DatabaseCreatorDropperAndSqlScriptExecutor : DatabaseCreat
 	/// <exception cref="ArgumentNullException">
 	/// Thrown if either <paramref name="databaseCreator" />, <paramref name="databaseDropper" />, or <paramref name="sqlScriptExecutor" /> is <c>null</c>.
 	/// </exception>
-	protected DatabaseCreatorDropperAndSqlScriptExecutor([NotNull] IDatabaseCreator? databaseCreator, [NotNull] IDatabaseDropper? databaseDropper, [NotNull] ISqlScriptExecutor? sqlScriptExecutor)
+	protected DatabaseCreatorDropperAndSqlScriptExecutor(IDatabaseCreator? databaseCreator, IDatabaseDropper? databaseDropper, ISqlScriptExecutor? sqlScriptExecutor)
 		: base(databaseCreator, databaseDropper)
 	{
 		Guard.IsNotNull(sqlScriptExecutor);

@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Exceptions;
 using DisposableDatabases.Interfaces.DatabaseOperations;
@@ -16,13 +15,13 @@ namespace DisposableDatabases.SqlServer;
 public class SqlServerDatabaseDropper : IDatabaseDropper
 {
 	/// <inheritdoc />
-	public Task DropDatabaseAsync([NotNull] string? connectionString, [NotNull] string? databaseName)
+	public Task DropDatabaseAsync(string? connectionString, string? databaseName)
 	{
 		return DropDatabaseAsync(connectionString, databaseName, CancellationToken.None);
 	}
 
 	/// <inheritdoc />
-	public Task DropDatabaseAsync([NotNull] string? connectionString, [NotNull] string? databaseName, CancellationToken cancellationToken)
+	public Task DropDatabaseAsync(string? connectionString, string? databaseName, CancellationToken cancellationToken)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNullOrWhiteSpace(databaseName);

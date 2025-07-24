@@ -28,14 +28,14 @@ public class CreateDatabaseAsync
 		IDatabaseCreatorDropperAndSqlScriptExecutor substituteDatabaseCreatorDropperAndSqlScriptExecutor = Substitute.For<IDatabaseCreatorDropperAndSqlScriptExecutor>();
 		substituteDatabaseCreatorDropperAndSqlScriptExecutor.CreateDatabaseAsync(connectionString, expectedDatabaseName, cancellationToken).Returns(Task.FromResult(expectedNewDatabaseConnectionString));
 
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
-		substituteDatabaseNamingStrategy.GenerateDatabaseName().Returns(expectedDatabaseName);
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
+		substituteNamingStrategy.GenerateName().Returns(expectedDatabaseName);
 
 		using (var temporarySqlFile = new TemporaryFile(".sql"))
 		{
 			var strategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 			                                                                   substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-			                                                                   substituteDatabaseNamingStrategy,
+			                                                                   substituteNamingStrategy,
 			                                                                   temporarySqlFile.FilePath);
 
 			// Act
@@ -68,14 +68,14 @@ public class CreateDatabaseAsync
 		substituteDatabaseCreatorDropperAndSqlScriptExecutor.ExecuteSqlScriptAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
 															.ThrowsAsync(new DisposableDatabasesException("Execution failed"));
 
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
-		substituteDatabaseNamingStrategy.GenerateDatabaseName().Returns(expectedDatabaseName);
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
+		substituteNamingStrategy.GenerateName().Returns(expectedDatabaseName);
 
 		using (var temporarySqlFile = new TemporaryFile(".sql"))
 		{
 			var strategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 			                                                                   substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-			                                                                   substituteDatabaseNamingStrategy,
+			                                                                   substituteNamingStrategy,
 			                                                                   temporarySqlFile.FilePath);
 
 			// Act
@@ -103,14 +103,14 @@ public class CreateDatabaseAsync
 		substituteDatabaseCreatorDropperAndSqlScriptExecutor.DropDatabaseAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
 															.ThrowsAsync(new DisposableDatabasesException("Drop database failed"));
 
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
-		substituteDatabaseNamingStrategy.GenerateDatabaseName().Returns(expectedDatabaseName);
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
+		substituteNamingStrategy.GenerateName().Returns(expectedDatabaseName);
 
 		using (var temporarySqlFile = new TemporaryFile(".sql"))
 		{
 			var strategy = new DatabaseCreationWithPostScriptExecutionStrategy(connectionString,
 			                                                                   substituteDatabaseCreatorDropperAndSqlScriptExecutor,
-			                                                                   substituteDatabaseNamingStrategy,
+			                                                                   substituteNamingStrategy,
 			                                                                   temporarySqlFile.FilePath);
 
 			// Act

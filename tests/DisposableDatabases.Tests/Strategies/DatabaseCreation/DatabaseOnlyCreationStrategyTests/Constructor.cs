@@ -19,10 +19,10 @@ public class Constructor
 	{
 		// Arrange
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseOnlyCreationStrategy(null, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy);
+		Action action = () => _ = new DatabaseOnlyCreationStrategy(null, substituteDatabaseCreatorAndDropper, substituteNamingStrategy);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -34,10 +34,10 @@ public class Constructor
 	{
 		// Arrange
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseOnlyCreationStrategy(invalidConnectionString, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy);
+		Action action = () => _ = new DatabaseOnlyCreationStrategy(invalidConnectionString, substituteDatabaseCreatorAndDropper, substituteNamingStrategy);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentException>());
@@ -48,10 +48,10 @@ public class Constructor
 	{
 		// Arrange
 		const string connectionString = "ValidConnectionString";
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseOnlyCreationStrategy(connectionString, null, substituteDatabaseNamingStrategy);
+		Action action = () => _ = new DatabaseOnlyCreationStrategy(connectionString, null, substituteNamingStrategy);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -77,10 +77,10 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 
 		// Act
-		Action action = () => _ = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy, null);
+		Action action = () => _ = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteNamingStrategy, null);
 
 		// Assert
 		Assert.That(action, Throws.TypeOf<ArgumentNullException>());
@@ -92,11 +92,11 @@ public class Constructor
 		// Arrange
 		const string connectionString = "ValidConnectionString";
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
 		NullLoggerFactory expectedLogger = NullLoggerFactory.Instance;
 
 		// Act
-		var databaseOnlyCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy);
+		var databaseOnlyCreationStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteNamingStrategy);
 
 		// Assert
 		object? actualLogger = typeof(DatabaseOnlyCreationStrategy).GetField("_loggerFactory", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(databaseOnlyCreationStrategy);

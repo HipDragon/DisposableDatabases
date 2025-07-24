@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Title>Disposable Databases - Microsoft SQL Server</Title>
-		<Description></Description>
+		<Description>
+			A simple and flexible solution for creating Microsoft SQL Server disposable databases for integration testing.
+		</Description>
 		<PackageTags>MS SQL;Microsoft SQL Server;SQL</PackageTags>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>PACKAGE.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,6 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\"/>
+		<None Include="PACKAGE.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 </Project>

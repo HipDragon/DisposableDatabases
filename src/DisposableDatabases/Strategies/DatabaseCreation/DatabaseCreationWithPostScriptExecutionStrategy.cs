@@ -2,7 +2,6 @@
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Exceptions;
 using DisposableDatabases.Interfaces;
@@ -34,7 +33,7 @@ public class DatabaseCreationWithPostScriptExecutionStrategy : IDisposableDataba
 	/// <summary>
 	/// Represents the strategy used to generate database names for the creation process.
 	/// </summary>
-	private readonly IDatabaseNamingStrategy _databaseNamingStrategy;
+	private readonly INamingStrategy _namingStrategy;
 
 	/// <summary>
 	/// A factory used to create logger instances for the strategy.
@@ -54,26 +53,26 @@ public class DatabaseCreationWithPostScriptExecutionStrategy : IDisposableDataba
 	/// <summary>
 	/// Represents a strategy for creating a database and running an SQL script against it.
 	/// </summary>
-	public DatabaseCreationWithPostScriptExecutionStrategy([NotNull] string? connectionString,
-	                                                       [NotNull] IDatabaseCreatorDropperAndSqlScriptExecutor? databaseCreatorDropperAndSqlScriptExecutor,
-	                                                       [NotNull] IDatabaseNamingStrategy? databaseNamingStrategy,
-	                                                       [NotNull] string? sqlScriptFilePath)
-		: this(connectionString, databaseCreatorDropperAndSqlScriptExecutor, databaseNamingStrategy, sqlScriptFilePath, NullLoggerFactory.Instance)
+	public DatabaseCreationWithPostScriptExecutionStrategy(string? connectionString,
+	                                                       IDatabaseCreatorDropperAndSqlScriptExecutor? databaseCreatorDropperAndSqlScriptExecutor,
+	                                                       INamingStrategy? namingStrategy,
+	                                                       string? sqlScriptFilePath)
+		: this(connectionString, databaseCreatorDropperAndSqlScriptExecutor, namingStrategy, sqlScriptFilePath, NullLoggerFactory.Instance)
 	{
 	}
 
 	/// <summary>
 	/// Represents a strategy for creating a database and running an SQL script against it.
 	/// </summary>
-	public DatabaseCreationWithPostScriptExecutionStrategy([NotNull] string? connectionString,
-	                                                       [NotNull] IDatabaseCreatorDropperAndSqlScriptExecutor? databaseCreatorDropperAndSqlScriptExecutor,
-	                                                       [NotNull] IDatabaseNamingStrategy? databaseNamingStrategy,
-	                                                       [NotNull] string? sqlScriptFilePath,
-	                                                       [NotNull] ILoggerFactory? loggerFactory)
+	public DatabaseCreationWithPostScriptExecutionStrategy(string? connectionString,
+	                                                       IDatabaseCreatorDropperAndSqlScriptExecutor? databaseCreatorDropperAndSqlScriptExecutor,
+	                                                       INamingStrategy? namingStrategy,
+	                                                       string? sqlScriptFilePath,
+	                                                       ILoggerFactory? loggerFactory)
 	{
 		Guard.IsNotNullOrWhiteSpace(connectionString);
 		Guard.IsNotNull(databaseCreatorDropperAndSqlScriptExecutor);
-		Guard.IsNotNull(databaseNamingStrategy);
+		Guard.IsNotNull(namingStrategy);
 		Guard.IsNotNullOrWhiteSpace(sqlScriptFilePath);
 		Guard.IsNotNull(loggerFactory);
 
@@ -84,7 +83,7 @@ public class DatabaseCreationWithPostScriptExecutionStrategy : IDisposableDataba
 
 		_connectionString = connectionString;
 		_databaseCreatorDropperAndSqlScriptExecutor = databaseCreatorDropperAndSqlScriptExecutor;
-		_databaseNamingStrategy = databaseNamingStrategy;
+		_namingStrategy = namingStrategy;
 		_loggerFactory = loggerFactory;
 		_sqlScriptFilePath = sqlScriptFilePath;
 	}
@@ -109,17 +108,19 @@ public class DatabaseCreationWithPostScriptExecutionStrategy : IDisposableDataba
 	}
 
 	/// <inheritdoc />
-	public Task DisposeDatabaseAsync([NotNull] IDisposableDatabase? disposableDatabase)
+	public Task DisposeDatabaseAsync(IDisposableDatabase? disposableDatabase)
 	{
 		Guard.IsNotNull(disposableDatabase);
 
+#pragma warning disable CA1062 // Validate arguments of public methods - Done by Guard.IsNotNull
 		return DisposeDatabaseInternalAsync(disposableDatabase);
+#pragma warning restore CA1062
 	}
 
 	/// <inheritdoc cref="CreateDatabaseAsync(CancellationToken)" />
 	private async Task<IDisposableDatabase> CreateDatabaseInternalAsync(CancellationToken cancellationToken)
 	{
-		string databaseName = _databaseNamingStrategy.GenerateDatabaseName();
+		string databaseName = _namingStrategy.GenerateName();
 		string newDatabaseConnectionString = await _databaseCreatorDropperAndSqlScriptExecutor.CreateDatabaseAsync(_connectionString, databaseName, cancellationToken).ConfigureAwait(false);
 
 		try

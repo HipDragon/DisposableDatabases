@@ -93,11 +93,11 @@ public class SqlServerDatabaseCreatorCreateDatabaseAsync
 			string connectionString = await _databaseCreator.CreateDatabaseAsync(sqlServerConnectionString, expectedDatabaseName);
 
 			// Assert
-			await Assert.MultipleAsync(async () =>
+			using (Assert.EnterMultipleScope())
 			{
 				Assert.That(connectionString, Is.EqualTo(expectedConnectionString));
 				await Assert.ThatAsync(() => SqlServerDatabaseUtilities.DatabaseExistsAsync(sqlServerConnectionString, expectedDatabaseName), Is.True);
-			});
+			}
 		}
 		finally
 		{

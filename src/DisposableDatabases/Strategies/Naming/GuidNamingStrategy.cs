@@ -1,39 +1,40 @@
-﻿// <copyright file="GuidDatabaseNamingStrategy.cs" company="DisposableDatabases">
+﻿// <copyright file="GuidNamingStrategy.cs" company="DisposableDatabases">
 //     Copyright (c) 2022 Joshua B Raymond. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using CommunityToolkit.Diagnostics;
 using DisposableDatabases.Interfaces.Strategies;
 
-namespace DisposableDatabases.Strategies.DatabaseNaming;
+namespace DisposableDatabases.Strategies.Naming;
 
 /// <summary>
-/// A naming strategy that generates a database name using a GUID with a specified format.
+/// A naming strategy that generates a name using a GUID with a specified format.
 /// </summary>
-public class GuidDatabaseNamingStrategy : IDatabaseNamingStrategy
+public class GuidNamingStrategy : INamingStrategy
 {
 	private const string DefaultGuidFormat = "N";
 	private readonly string _guidFormat;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="GuidDatabaseNamingStrategy" /> class with the default GUID format.
+	/// Initializes a new instance of the <see cref="GuidNamingStrategy" /> class with the default GUID format.
 	/// </summary>
-	public GuidDatabaseNamingStrategy() : this(DefaultGuidFormat)
+	public GuidNamingStrategy() : this(DefaultGuidFormat)
 	{
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="GuidDatabaseNamingStrategy" /> class with the specified GUID format.
+	/// Initializes a new instance of the <see cref="GuidNamingStrategy" /> class with the specified GUID format.
 	/// </summary>
 	/// <param name="guidFormat">The format string for the GUID, which will be validated.</param>
 	/// <exception cref="ArgumentException">Thrown when the GUID format is null, whitespace, or invalid.</exception>
-	public GuidDatabaseNamingStrategy([NotNull] string? guidFormat)
+	public GuidNamingStrategy(string? guidFormat)
 	{
 		Guard.IsNotNullOrWhiteSpace(guidFormat);
 
+#pragma warning disable CA1062 // Validate arguments of public methods - Done by Guard.IsNotNull
 		if (!IsValidGuidFormat(guidFormat))
+#pragma warning restore CA1062
 		{
 			ThrowHelper.ThrowArgumentException(nameof(guidFormat), "Invalid GUID format specified.");
 		}
@@ -42,10 +43,10 @@ public class GuidDatabaseNamingStrategy : IDatabaseNamingStrategy
 	}
 
 	/// <summary>
-	/// Generates a unique database name using a GUID with the specified format.
+	/// Generates a unique name using a GUID with the specified format.
 	/// </summary>
-	/// <returns>A unique database name.</returns>
-	public virtual string GenerateDatabaseName()
+	/// <returns>A unique name.</returns>
+	public virtual string GenerateName()
 	{
 		return Guid.NewGuid().ToString(_guidFormat, CultureInfo.InvariantCulture);
 	}

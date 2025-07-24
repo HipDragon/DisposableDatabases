@@ -172,7 +172,7 @@ perform
 post-test analysis on the database state.
 
 ```csharp
-disposableDatabase.PreserveDatabase();
+disposableDatabase.PreserveDatabase = true;
 ```
 
 By following these steps, you can efficiently manage disposable databases in your integration tests while ensuring that

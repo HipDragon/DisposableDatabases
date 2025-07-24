@@ -24,10 +24,10 @@ public class CreateDatabaseAsync
 		IDatabaseCreatorAndDropper substituteDatabaseCreatorAndDropper = Substitute.For<IDatabaseCreatorAndDropper>();
 		substituteDatabaseCreatorAndDropper.CreateDatabaseAsync(connectionString, expectedDatabaseName, Arg.Any<CancellationToken>()).Returns(Task.FromResult(expectedNewDatabaseConnectionString));
 
-		IDatabaseNamingStrategy substituteDatabaseNamingStrategy = Substitute.For<IDatabaseNamingStrategy>();
-		substituteDatabaseNamingStrategy.GenerateDatabaseName().Returns(expectedDatabaseName);
+		INamingStrategy substituteNamingStrategy = Substitute.For<INamingStrategy>();
+		substituteNamingStrategy.GenerateName().Returns(expectedDatabaseName);
 
-		var createDatabaseOnlyStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteDatabaseNamingStrategy);
+		var createDatabaseOnlyStrategy = new DatabaseOnlyCreationStrategy(connectionString, substituteDatabaseCreatorAndDropper, substituteNamingStrategy);
 
 		// Act
 		IDisposableDatabase disposableDatabase = await createDatabaseOnlyStrategy.CreateDatabaseAsync();

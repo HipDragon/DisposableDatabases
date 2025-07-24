@@ -3,10 +3,10 @@
 		<Company>Disposable Databases</Company>
 		<Authors>Joshua Raymond</Authors>
 		<Product>Disposable Databases</Product>
-		<CommonTags>Database;Integration Testing;Testing;Test;BDD;TDD;</CommonTags>
+		<CommonTags>Disposable;Temporary;Database;Integration Testing;Testing;Test;BDD;TDD;</CommonTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Copyright>(c) Joshua Raymond and Contributors. All rights reserved.</Copyright>
+		<Copyright>Copyright (c) Joshua Raymond and Contributors. All rights reserved.</Copyright>
 		<PackageProjectUrl>https://github.com/HipDragon/DisposableDatabases</PackageProjectUrl>
 		<PackageReleaseNotes>https://github.com/HipDragon/DisposableDatabases/releases</PackageReleaseNotes>
 		<!--<PackageIcon>Icon.png</PackageIcon>
@@ -18,7 +18,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<LangVersion>13</LangVersion>
+		<LangVersion>12</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -34,16 +34,11 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 
+	<!-- Add settings specific to .NET 7 or greater -->
 	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == 'NET7_0_OR_GREATER'">
 		<IsAotCompatible>true</IsAotCompatible>
-		<!-- Add settings specific to .NET 7 or greater -->
 	</PropertyGroup>
 
-	<!-- 👇 disable the nullable warnings when compiling for .NET Framework -->
-	<!--<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-		<NoWarn>$(NoWarn);CS8630</NoWarn>
-	</PropertyGroup>
--->
 	<ItemGroup>
 		<PackageReference Include="PolySharp">
 			<PrivateAssets>all</PrivateAssets>
