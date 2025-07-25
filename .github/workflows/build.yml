@@ -1,0 +1,114 @@
+﻿name: Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/*'
+      - 'hotfix/*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+          ACCEPT_EULA: "Y"
+        ports:
+          - 1433:1433
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install GitVersion
+        run: dotnet tool install --global GitVersion.Tool
+
+      - name: Run GitVersion
+        id: gitversion
+        run: |
+          # Run the command and capture the output
+          output=$(dotnet-gitversion /output dotenv)
+
+          # Store each output separately
+          while IFS= read -r line; do
+            # Extract the key and value from each line
+            key=$(echo "$line" | cut -d'=' -f1 | tr -d "'")
+            value=$(echo "$line" | cut -d'=' -f2 | tr -d "'")
+
+            # Trim the GitVersion_ prefix from the key
+            trimmed_key=${key#GitVersion_}
+
+            echo "$trimmed_key=$value" >> $GITHUB_OUTPUT
+          done <<< "$output"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+
+      - name: Tests
+        env:
+          SqlServerConnectionString: ${{ secrets.MSSQL_CONNECTION_STRING }}
+          PostgreSqlConnectionString: ${{ secrets.POSTGRESQL_CONNECTION_STRING }}
+        run: dotnet test --configuration Release --collect "Code Coverage;Format=cobertura;IncludeTestAssembly=false" --logger trx --no-build --framework net8.0
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: reportgenerator -reports:**/*cobertura.xml -targetdir:coverage-report -reporttypes:Html
+
+      - name: Publish coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: CoverageReport
+          path: coverage-report
+
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: |
+                ./**/*.trx
+                ./**/*.log
+
+      - name: Pack NuGet Package
+        run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }} --output ./nuget-packages --no-build
+
+      - name: Upload Package Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-packages
+          path: |
+                ./nuget-packages/*.nupkg
+                ./nuget-packages/*.snupkg
+
+#      - name: Publish NuGet Package
+#        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

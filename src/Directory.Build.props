@@ -16,13 +16,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Sbom.Targets" PrivateAssets="All" />
-		<!--<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
-
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+<!--
 		<PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
 			<PrivateAssets>All</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
-		-->
+-->
 	</ItemGroup>
 
 	<ItemGroup>

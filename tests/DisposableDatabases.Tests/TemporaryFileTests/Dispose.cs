@@ -32,6 +32,7 @@ public class Dispose
 	}
 
 	[Test]
+	[Platform("Win")]
 	public void LogsErrorMessageGivenFileDeleteException()
 	{
 		// Arrange
