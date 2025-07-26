@@ -7,6 +7,8 @@ version: "1.0"
 #Specify IDE code to run analysis without container (Applied in CI/CD pipeline)
 ide: QDNET
 
+linter: cdnet
+
 dotnet:
   solution: DisposableDatabases.sln
 
