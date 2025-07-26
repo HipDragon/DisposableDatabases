@@ -43,11 +43,11 @@ public class CreateDatabaseAsync
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			Assert.Multiple(() =>
+			using (Assert.EnterMultipleScope())
 			{
 				Assert.That(result.ConnectionString, Is.EqualTo(expectedNewDatabaseConnectionString));
 				Assert.That(result.DatabaseName, Is.EqualTo(expectedDatabaseName));
-			});
+			}
 			await substituteDatabaseCreatorDropperAndSqlScriptExecutor.Received(1).CreateDatabaseAsync(connectionString, expectedDatabaseName, cancellationToken);
 			await substituteDatabaseCreatorDropperAndSqlScriptExecutor.Received(1)
 			                                                          .ExecuteSqlScriptAsync(expectedNewDatabaseConnectionString, expectedDatabaseName, temporarySqlFile.FilePath, cancellationToken);

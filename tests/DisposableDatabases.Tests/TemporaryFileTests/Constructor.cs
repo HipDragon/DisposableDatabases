@@ -88,11 +88,11 @@ public class Constructor
 		using (var temporaryFile = new TemporaryFile())
 		{
 			// Assert
-			Assert.Multiple(() =>
+			using (Assert.EnterMultipleScope())
 			{
 				Assert.That(File.Exists(temporaryFile.FilePath), Is.True);
 				Assert.That(Path.GetDirectoryName(temporaryFile.FilePath), Is.EqualTo(Path.GetDirectoryName(Path.GetTempPath())));
-			});
+			}
 		}
 	}
 
@@ -107,12 +107,12 @@ public class Constructor
 		using (var temporaryFile = new TemporaryFile(extension))
 		{
 			// Assert
-			Assert.Multiple(() =>
+			using (Assert.EnterMultipleScope())
 			{
 				Assert.That(File.Exists(temporaryFile.FilePath), Is.True);
 				Assert.That(Path.GetExtension(temporaryFile.FilePath), Is.EqualTo(expectedExtension));
 				Assert.That(Path.GetDirectoryName(temporaryFile.FilePath), Is.EqualTo(Path.GetDirectoryName(Path.GetTempPath())));
-			});
+			}
 		}
 	}
 }

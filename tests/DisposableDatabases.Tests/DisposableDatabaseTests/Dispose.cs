@@ -71,14 +71,14 @@ public class Dispose
 		testDisposableDatabase.Dispose();
 
 		// Assert
-		Assert.Multiple(() =>
+		using (Assert.EnterMultipleScope())
 		{
 			Assert.That(fakeLogger.Collector.LatestRecord.Level, Is.EqualTo(LogLevel.Debug));
 			Assert.That(fakeLogger.Collector.LatestRecord.Id, Is.EqualTo(expectedEventId));
 			Assert.That(fakeLogger.Collector.LatestRecord.Id.Name, Is.EqualTo(expectedEventId.Name));
 			Assert.That(fakeLogger.Collector.LatestRecord.Message, Is.EqualTo($"Preserving database '{databaseName}'."));
 			Assert.That(fakeLogger.Collector.LatestRecord.StructuredState, Is.EqualTo(expectedStructuredState));
-		});
+		}
 	}
 
 	[Test]
@@ -121,9 +121,7 @@ public class Dispose
 
 		// Act
 		testDisposableDatabase.Dispose();
-
-		// Assert
-		Assert.Multiple(() =>
+		using (Assert.EnterMultipleScope())
 		{
 			Assert.That(fakeLogger.Collector.LatestRecord.Level, Is.EqualTo(LogLevel.Error));
 			Assert.That(fakeLogger.Collector.LatestRecord.Id, Is.EqualTo(expectedEventId));
@@ -131,6 +129,6 @@ public class Dispose
 			Assert.That(fakeLogger.Collector.LatestRecord.Message, Is.EqualTo($"Dropping database failed. Manual cleanup is required for the database '{databaseName}'."));
 			Assert.That(fakeLogger.Collector.LatestRecord.StructuredState, Is.EqualTo(expectedStructuredState));
 			Assert.That(fakeLogger.Collector.LatestRecord.Exception, Is.EqualTo(expectedException));
-		});
+		}
 	}
 }

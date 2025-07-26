@@ -115,11 +115,11 @@ public class Constructor
 		using (var testDisposableDatabase = new TestDisposableDatabase("ValidConnectionString", "ValidDatabaseName", disposableDatabaseCreationStrategy))
 		{
 			// Assert
-			Assert.Multiple(() =>
+			using (Assert.EnterMultipleScope())
 			{
 				Assert.That(testDisposableDatabase.ConnectionString, Is.EqualTo("ValidConnectionString"));
 				Assert.That(testDisposableDatabase.DatabaseName, Is.EqualTo("ValidDatabaseName"));
-			});
+			}
 		}
 	}
 }

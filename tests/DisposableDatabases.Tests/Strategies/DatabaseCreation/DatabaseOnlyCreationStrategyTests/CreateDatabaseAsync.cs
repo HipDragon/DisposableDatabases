@@ -35,10 +35,10 @@ public class CreateDatabaseAsync
 		// Assert
 		await substituteDatabaseCreatorAndDropper.Received(1).CreateDatabaseAsync(connectionString, expectedDatabaseName, Arg.Any<CancellationToken>());
 		Assert.That(disposableDatabase, Is.Not.Null);
-		Assert.Multiple(() =>
+		using (Assert.EnterMultipleScope())
 		{
 			Assert.That(disposableDatabase.ConnectionString, Is.EqualTo(expectedNewDatabaseConnectionString));
 			Assert.That(disposableDatabase.DatabaseName, Is.EqualTo(expectedDatabaseName));
-		});
+		}
 	}
 }

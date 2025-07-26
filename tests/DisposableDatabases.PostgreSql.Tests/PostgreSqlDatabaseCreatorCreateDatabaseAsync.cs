@@ -96,13 +96,13 @@ public class PostgreSqlDatabaseCreatorCreateDatabaseAsync
 		string connectionString = await _databaseCreator.CreateDatabaseAsync(postgreSqlConnectionString, expectedDatabaseName);
 
 		// Assert
-		await Assert.MultipleAsync(async () =>
+		using (Assert.EnterMultipleScope())
 		{
 			Assert.That(connectionString, Is.EqualTo(expectedConnectionString));
 			await Assert.ThatAsync(() => PostgreSqlDatabaseUtilities.DatabaseExistsAsync(postgreSqlConnectionString, expectedDatabaseName), Is.True);
 
 			// Cleanup
 			await PostgreSqlDatabaseUtilities.DropDatabaseAsync(postgreSqlConnectionString, expectedDatabaseName);
-		});
+		}
 	}
 }
