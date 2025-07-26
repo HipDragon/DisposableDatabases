@@ -4,17 +4,14 @@
 #-------------------------------------------------------------------------------#
 version: "1.0"
 
-#Specify IDE code to run analysis without container (Applied in CI/CD pipeline)
-ide: QDNET
-
-linter: cdnet
+linter: jetbrains/qodana-cdnet:2025.1
 
 dotnet:
   solution: DisposableDatabases.sln
 
 #Specify inspection profile for code analysis
 profile:
-  name: qodana.starter
+  name: qodana.recommended
 
 #Enable inspections
 include:
