@@ -1,0 +1,40 @@
+﻿#-------------------------------------------------------------------------------#
+#               Qodana analysis is configured by qodana.yaml file               #
+#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
+#-------------------------------------------------------------------------------#
+version: "1.0"
+
+#Specify IDE code to run analysis without container (Applied in CI/CD pipeline)
+ide: QDNET
+
+#Specify inspection profile for code analysis
+profile:
+  name: qodana.recommended
+
+#Enable inspections
+include:
+  - name: CheckDependencyLicenses
+  - name: CSharpErrors
+  - name: CSharpGlobalCompilerErrors
+  - name: CSharpStructuralErrors
+  - name: InspectionsCSHARP
+  - name: InspectionsDotNET
+  - name: LanguageInjections
+  - name: SecurityProblemsInCode
+
+#Disable inspections
+exclude:
+  - name: All
+    paths:
+      - '**/bin/**'
+      - '**/obj/**'
+      - '**/node_modules/**'
+      - '**/TestResults/**'
+
+#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
+#bootstrap: sh ./prepare-qodana.sh
+bootstrap: dotnet restore
+
+#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
+#plugins:
+#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
