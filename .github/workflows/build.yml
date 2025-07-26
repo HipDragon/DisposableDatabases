@@ -96,8 +96,8 @@ jobs:
         with:
           name: TestResults
           path: |
-                ./**/*.trx
-                ./**/*.log
+            ./**/*.trx
+            ./**/*.log
 
       - name: Pack NuGet Package
         run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }} --output ./nuget-packages --no-build
@@ -107,8 +107,8 @@ jobs:
         with:
           name: dotnet-packages
           path: |
-                ./nuget-packages/*.nupkg
-                ./nuget-packages/*.snupkg
+            ./nuget-packages/*.nupkg
+            ./nuget-packages/*.snupkg
 
 #      - name: Publish NuGet Package
 #        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
