@@ -14,7 +14,8 @@ public class GlobalTestSetup
 	[OneTimeSetUp]
 	public void Setup()
 	{
-		IConfigurationBuilder configurationBuilder = new ConfigurationBuilder().AddUserSecrets<GlobalTestSetup>();
+		IConfigurationBuilder configurationBuilder = new ConfigurationBuilder().AddUserSecrets<GlobalTestSetup>()
+		                                                                       .AddEnvironmentVariables();
 
 		Configuration = configurationBuilder.Build();
 	}

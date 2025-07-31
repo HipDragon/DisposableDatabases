@@ -4,7 +4,7 @@
     <PackageVersion Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
-    <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.0.3" />
+    <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <!-- MS SQL Server -->
@@ -13,6 +13,7 @@
     <PackageVersion Include="Npgsql" Version="[8.0.7]" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" />
     <PackageVersion Include="Npgsql" Version="9.0.3" Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'" />
     <!-- Test packages -->
+		<PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.Testing" Version="9.7.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
@@ -22,8 +23,8 @@
     <PackageVersion Include="NUnit" Version="4.3.2" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.9.2" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
-		<!-- Benchmarking packages -->
-		<PackageVersion Include="BenchmarkDotNet" Version="0.15.2" />
+    <!-- Benchmarking packages -->
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.2" />
     <PackageVersion Include="Testcontainers" Version="4.6.0" />
     <PackageVersion Include="Testcontainers.MsSql" Version="4.6.0" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.6.0" />
